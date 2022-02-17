@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "./pagination";
 import Rating from "./Rating";
-import products from "../../data/Products";
+import axios from "axios";
 
 const ShopSection = () => {
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        const fetchproduct = async () => {
+            const { data } = await axios.get("/api/products");
+            console.log(data)
+            setProducts(data);
+        };
+        fetchproduct();
+    }, [])
+
     return (
         <>
             <div className='container'>
@@ -103,12 +115,12 @@ const ShopSection = () => {
                                                     <h2>
                                                         {product.name}
                                                     </h2>
-                                                    <div class="text-card">
+                                                    <div className="text-card">
                                                         <h4>
                                                             ${product.price}
                                                         </h4>
                                                     </div>
-                                                    <div class="text-card">
+                                                    <div className="text-card">
                                                         <h3>
                                                             <div className='row'>
                                                                 <Rating
