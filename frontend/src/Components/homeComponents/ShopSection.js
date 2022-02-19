@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "./pagination";
 import Rating from "./Rating";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { listProduct } from "../../Redux/Actions/ProductActions";
 
 const ShopSection = () => {
 
-    const [products, setProducts] = useState([]);
+    const dispatch = useDispatch();
+
+    const productList = useSelector((state) => state.productList);
+
+    const { products } = productList;
 
     useEffect(() => {
-        const fetchproduct = async () => {
-            const { data } = await axios.get("/api/products");
-            console.log(data)
-            setProducts(data);
-        };
-        fetchproduct();
-    }, [])
+        dispatch(listProduct())
+    }, [dispatch])
 
     return (
         <>
