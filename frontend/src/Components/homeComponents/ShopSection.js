@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "./pagination";
 import Rating from "./Rating";
+import Loading from "../LoadingError/Loading";
+import Message from "../LoadingError/Error";
 import { useDispatch, useSelector } from "react-redux";
 import { listProduct } from "../../Redux/Actions/ProductActions";
 
@@ -11,7 +13,7 @@ const ShopSection = () => {
 
     const productList = useSelector((state) => state.productList);
 
-    const { products } = productList;
+    const { loading, error, products } = productList;
 
     useEffect(() => {
         dispatch(listProduct())
@@ -74,68 +76,85 @@ const ShopSection = () => {
                             </div> */}
                             {/* end test */}
                             <div className='shopcontainer row'>
-                                {products.map((product) => (
-                                    // <div
-                                    //     className="shop col-lg-4 col-md-6 col-sm-6"
-                                    //     key={product._id}>
-                                    //     <div className="border-product">
-                                    //         <Link to={`/products/${product._id}`}>
-                                    //             <div className="shopBack">
-                                    //                 <img src={product.image} alt={product.name} />
-                                    //             </div>
-                                    //         </Link>
-
-                                    //         <div className="shoptext">
-                                    //             <p>
-                                    //                 <Link to={`/products/${product._id}`}>
-                                    //                     {product.name}
-                                    //                 </Link>
-                                    //             </p>
-
-                                    //             <Rating
-                                    //                 value={product.rating}
-                                    //                 text={`${product.numReviews} reviews`}
-                                    //             />
-                                    //             <h3>${product.price}</h3>
-                                    //         </div>
-                                    //     </div>
-                                    // </div>
-                                    <div
-                                        className="shop col-lg-4 col-md-6 col-sm-6"
-                                        key={product._id}
-                                    >
-                                        <div className="container5" key={product._id}>
-                                            <div className="card">
-                                                <div className="imgBx">
-                                                    <Link to={`/products/${product._id}`}>
-                                                        <img src={product.image} alt={product.name} />
-                                                    </Link>
-                                                </div>
-                                                <div className="contentBx">
-                                                    <h2>
-                                                        {product.name}
-                                                    </h2>
-                                                    <div className="text-card">
-                                                        <h4>
-                                                            ${product.price}
-                                                        </h4>
-                                                    </div>
-                                                    <div className="text-card">
-                                                        <h3>
-                                                            <div className='row'>
-                                                                <Rating
-                                                                    value={product.rating}
-                                                                    text={`${product.numReviews} reviews`}
-                                                                />
-                                                            </div>
-                                                        </h3>
-                                                    </div>
-                                                    <Link to="#">Mua ngay</Link>
-                                                </div>
-                                            </div>
+                                {
+                                    loading ? (
+                                        <div className="mb-5">
+                                            <Loading />
                                         </div>
-                                    </div>
-                                ))}
+                                    ) : error ? (
+                                        <Message variant="alert-danger">
+                                            {error}
+                                        </Message>
+                                    )
+                                        :
+                                        (
+                                            <>
+                                                {products.map((product) => (
+                                                    // <div
+                                                    //     className="shop col-lg-4 col-md-6 col-sm-6"
+                                                    //     key={product._id}>
+                                                    //     <div className="border-product">
+                                                    //         <Link to={`/products/${product._id}`}>
+                                                    //             <div className="shopBack">
+                                                    //                 <img src={product.image} alt={product.name} />
+                                                    //             </div>
+                                                    //         </Link>
+
+                                                    //         <div className="shoptext">
+                                                    //             <p>
+                                                    //                 <Link to={`/products/${product._id}`}>
+                                                    //                     {product.name}
+                                                    //                 </Link>
+                                                    //             </p>
+
+                                                    //             <Rating
+                                                    //                 value={product.rating}
+                                                    //                 text={`${product.numReviews} reviews`}
+                                                    //             />
+                                                    //             <h3>${product.price}</h3>
+                                                    //         </div>
+                                                    //     </div>
+                                                    // </div>
+                                                    <div
+                                                        className="shop col-lg-4 col-md-6 col-sm-6"
+                                                        key={product._id}
+                                                    >
+                                                        <div className="container5" key={product._id}>
+                                                            <div className="card">
+                                                                <div className="imgBx">
+                                                                    <Link to={`/products/${product._id}`}>
+                                                                        <img src={product.image} alt={product.name} />
+                                                                    </Link>
+                                                                </div>
+                                                                <div className="contentBx">
+                                                                    <h2>
+                                                                        {product.name}
+                                                                    </h2>
+                                                                    <div className="text-card">
+                                                                        <h4>
+                                                                            ${product.price}
+                                                                        </h4>
+                                                                    </div>
+                                                                    <div className="text-card">
+                                                                        <h3>
+                                                                            <div className='row'>
+                                                                                <Rating
+                                                                                    value={product.rating}
+                                                                                    text={`${product.numReviews} reviews`}
+                                                                                />
+                                                                            </div>
+                                                                        </h3>
+                                                                    </div>
+                                                                    <Link to="#">Mua ngay</Link>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </>
+                                        )
+                                }
+
                                 {/* Phân trang */}
                                 <Pagination />
                             </div>
