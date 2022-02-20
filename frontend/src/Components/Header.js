@@ -1,7 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+
+    const cart = useSelector((state) => state.cart);
+    const { cartItems } = cart;
+
     return (
         <div>
             {/* Top Header */}
@@ -130,7 +135,7 @@ const Header = () => {
 
                                 <Link to="/cart">
                                     <i className="fas fa-shopping-bag"></i>
-                                    <span className="badge">5</span>
+                                    <span className="badge">{cartItems.length}</span>
                                 </Link>
                             </div>
                         </div>
