@@ -29,6 +29,41 @@ userRouter.post(
     })
 );
 
+// REGISTER
+userRouter.post(
+    "/",
+    asyncHandler(async (req, res) => {
+        const { name, email, password } = req.body;
+
+        const userExists = await User.findOne({ email }); // user exist
+
+        if (userExists) {   // if user exist
+            res.status(400);
+            throw new Error("Người dùng đã tồn tại");
+        }
+
+        // else: create new user
+        const user = await User.create({
+            name,
+            email,
+            password,
+        });
+
+        if (user) {
+            res.status(201).json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                isAdmin: user.isAdmin,
+                token: generateToken(user._id),
+            });
+        } else {
+            res.status(400);
+            throw new Error("Thông tin người dùng không hợp lệ");
+        }
+    })
+);
+
 // PROFILE
 userRouter.get(
     "/profile",
