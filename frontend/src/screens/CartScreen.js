@@ -54,6 +54,7 @@ const CartScreen = ({ match, location, history }) => {
                                 ({cartItems.length})
                             </Link>
                         </div>
+                        
                         {/* cartiterm */}
                         {cartItems.map((item) => (
                             <div className="cart-iterm row">
