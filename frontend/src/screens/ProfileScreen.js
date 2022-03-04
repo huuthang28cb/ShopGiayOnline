@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import ContactInfo from "../Components/homeComponents/ContactInfo";
+import ProfileTabs from "../Components/profileComponents/ProfileTabs";
+import { getUserDetails } from "../Redux/Actions/userActions";
+import moment from "moment";
 
 const ProfileScreen = () => {
+    window.scrollTo(0, 0);
+
+    const dispatch = useDispatch();
+
+    const userLogin = useSelector((state) => state.userLogin);
+
+    const { userInfo } = userLogin;
+
+    console.log(userInfo)
+
+    useEffect(() => {
+        dispatch(getUserDetails("profile"));
+    }, [dispatch, userInfo]);
+
     return (
         <>
             <Header />
@@ -18,10 +36,10 @@ const ProfileScreen = () => {
                                 </div>
                                 <div className="author-card-details col-md-7">
                                     <h5 className="author-card-name mb-2">
-                                        <strong>Thắng</strong>
+                                        <strong>{userInfo.name}</strong>
                                     </h5>
                                     <span className="author-card-position">
-                                        <>Tham gia từ 22/02/2022</>
+                                        <>Tham gia từ {moment(userInfo.createdAt).format("DD/MM/YYYY")}</>
                                     </span>
                                 </div>
                             </div>
@@ -75,6 +93,7 @@ const ProfileScreen = () => {
                             role="tabpanel"
                             aria-labelledby="v-pills-home-tab"
                         >
+                            <ProfileTabs/>
                         </div>
                         <div
                             class="tab-pane fade"

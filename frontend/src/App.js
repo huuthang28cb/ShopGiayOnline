@@ -1,5 +1,7 @@
+import React from "react";
 import './App.css';
 import "./responsive.css";
+import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import HomeScreen from './screens/HomeScreen';
 import Login from './screens/Login';
@@ -12,6 +14,7 @@ import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
+import PrivateRouter from "./PrivateRouter";
 
 
 
@@ -22,7 +25,7 @@ function App() {
         <Route path='/' component={HomeScreen} exact />
         <Route path='/login' component={Login} />
         <Route path='/register' component={Register} />
-        <Route path="/profile" component={ProfileScreen} />
+        <PrivateRouter path="/profile" component={ProfileScreen} />
 
         {/* Product */}
         <Route path='/products/:id' component={SingleProduct} />
@@ -32,7 +35,7 @@ function App() {
         <Route path='/placeorder' component={PlaceOrderScreen} />
 
         {/* Order */}
-        <Route path='/order' component={OrderScreen}/>
+        <Route path='/order' component={OrderScreen} />
 
         {/* Not found */}
         <Route path='*' component={NotFound} />
